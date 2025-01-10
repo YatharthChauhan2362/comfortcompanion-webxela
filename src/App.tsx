@@ -10,6 +10,8 @@ import { ContactPage } from './pages/ContactPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { PetsPage } from './pages/PetsPage';
+import { DogPage } from './pages/pets/DogPage';
+import { CatPage } from './pages/pets/CatPage';
 import { ShopPage } from './pages/ShopPage';
 import { CartPage } from './pages/CartPage';
 import { CheckoutPage } from './pages/CheckoutPage';
@@ -47,7 +49,7 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-export default function App() {
+export function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
@@ -85,6 +87,8 @@ export default function App() {
                           <Route path="/about" element={<AboutPage />} />
                           <Route path="/contact" element={<ContactPage />} />
                           <Route path="/pets" element={<PetsPage />} />
+                          <Route path="/pets/dogs" element={<DogPage />} />
+                          <Route path="/pets/cats" element={<CatPage />} />
                           <Route path="/shop" element={<ShopPage />} />
                           <Route path="/cart" element={<CartPage />} />
                           <Route path="/checkout" element={<CheckoutPage />} />
@@ -107,3 +111,5 @@ export default function App() {
     </ErrorBoundary>
   );
 }
+
+export default App;

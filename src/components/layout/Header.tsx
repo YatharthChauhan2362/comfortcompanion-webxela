@@ -22,6 +22,7 @@ export function Header() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const cartItems = useCartStore(state => state.items);
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
@@ -74,24 +75,34 @@ export function Header() {
             ))}
 
             {/* Where to Buy Dropdown */}
-            <div className="relative group">
-              <button className="text-gray-500 hover:text-gray-900 flex items-center space-x-1">
+            <div className="relative">
+              <button
+                type="button"
+                className="text-gray-500 hover:text-gray-900 flex items-center space-x-1"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
                 <Store className="h-4 w-4" />
                 <span>Where to Buy</span>
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className={`h-4 w-4 transform transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
               </button>
-              <div className="absolute z-10 hidden group-hover:block w-48 right-0 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg">
-                {whereToBuyLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                  >
-                    <link.icon className="h-4 w-4" />
-                    <span>{link.name}</span>
-                  </Link>
-                ))}
-              </div>
+              {dropdownOpen && (
+                <div 
+                  className="absolute z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5"
+                  onMouseLeave={() => setDropdownOpen(false)}
+                >
+                  {whereToBuyLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      to={link.href}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <link.icon className="h-4 w-4" />
+                      <span>{link.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Cart */}
@@ -117,6 +128,7 @@ export function Header() {
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
             >

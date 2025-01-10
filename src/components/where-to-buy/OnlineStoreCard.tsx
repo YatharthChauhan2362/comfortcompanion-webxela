@@ -1,6 +1,6 @@
 import React from 'react';
 import { Star, Truck, CreditCard } from 'lucide-react';
-import { OnlineStore } from '../../types';
+import type { OnlineStore } from '../../types';
 
 interface OnlineStoreCardProps {
   store: OnlineStore;

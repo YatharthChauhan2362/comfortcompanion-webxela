@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, Star, Clock, ExternalLink } from 'lucide-react';
-import { Veterinarian } from '../../types';
+import type { Veterinarian } from '../../types';
 
 interface VetCardProps {
   vet: Veterinarian;

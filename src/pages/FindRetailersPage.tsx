@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Search, MapPin } from 'lucide-react';
 import { RetailerCard } from '../components/where-to-buy/RetailerCard';
+import { LocationSearch } from '../components/where-to-buy/LocationSearch';
+import { PageHeader } from '../components/where-to-buy/PageHeader';
 import { retailers } from '../data/retailers';
 
 export function FindRetailersPage() {
@@ -16,51 +17,30 @@ export function FindRetailersPage() {
   return (
     <div className="bg-gray-50 min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Find Local Pet Retailers</h1>
-          <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-            Discover pet stores in your area for all your pet care needs
-          </p>
-        </div>
+        <PageHeader
+          title="Find Local Pet Retailers"
+          description="Discover trusted pet stores in your area offering quality products, expert advice, and personalized service for all your pet care needs."
+        />
 
-        <div className="mt-10 max-w-xl mx-auto">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <Search className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Search retailers..."
-                />
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <MapPin className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Enter location..."
-                />
-              </div>
-            </div>
+        <LocationSearch
+          searchQuery={searchQuery}
+          location={location}
+          onSearchChange={setSearchQuery}
+          onLocationChange={setLocation}
+          placeholder="Search retailers..."
+        />
+
+        {filteredRetailers.length === 0 ? (
+          <div className="text-center mt-12">
+            <p className="text-gray-500">No retailers found matching your search criteria.</p>
           </div>
-        </div>
-
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredRetailers.map((retailer) => (
-            <RetailerCard key={retailer.id} retailer={retailer} />
-          ))}
-        </div>
+        ) : (
+          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredRetailers.map((retailer) => (
+              <RetailerCard key={retailer.id} retailer={retailer} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

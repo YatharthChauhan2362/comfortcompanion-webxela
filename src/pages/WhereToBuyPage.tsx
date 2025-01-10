@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, ShoppingBag, CreditCard, Store } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function WhereToBuyPage() {
   const buyingOptions = [
@@ -8,28 +9,28 @@ export function WhereToBuyPage() {
       description: 'Locate authorized pet stores in your area for in-person shopping experience.',
       icon: Store,
       action: 'Find Stores',
-      href: '/stores'
+      href: '/find-retailers'
     },
     {
       title: 'Online Shopping',
       description: 'Browse our selection of trusted online retailers for convenient shopping.',
       icon: ShoppingBag,
       action: 'Shop Online',
-      href: '/online-stores'
+      href: '/find-online-stores'
     },
     {
       title: 'Veterinary Clinics',
       description: 'Purchase directly from verified veterinary clinics with expert guidance.',
       icon: MapPin,
       action: 'Find Clinics',
-      href: '/clinics'
+      href: '/find-vets'
     },
     {
       title: 'Secure Payments',
       description: 'Multiple payment options available with secure transaction processing.',
       icon: CreditCard,
       action: 'Learn More',
-      href: '/payments'
+      href: '/features'
     }
   ];
 
@@ -45,22 +46,20 @@ export function WhereToBuyPage() {
 
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-none lg:grid-cols-2">
           {buyingOptions.map((option) => (
-            <div
+            <Link
               key={option.title}
+              to={option.href}
               className="flex flex-col rounded-lg bg-white shadow-lg transition-all hover:shadow-xl"
             >
               <div className="p-6">
                 <option.icon className="h-8 w-8 text-indigo-600" />
                 <h3 className="mt-4 text-xl font-semibold text-gray-900">{option.title}</h3>
                 <p className="mt-2 text-gray-600">{option.description}</p>
-                <a
-                  href={option.href}
-                  className="mt-4 inline-flex items-center text-sm font-semibold text-indigo-600 hover:text-indigo-500"
-                >
+                <span className="mt-4 inline-flex items-center text-sm font-semibold text-indigo-600 hover:text-indigo-500">
                   {option.action} <span aria-hidden="true">→</span>
-                </a>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

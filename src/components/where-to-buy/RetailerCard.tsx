@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, Clock, Star, ExternalLink } from 'lucide-react';
-import { Retailer } from '../../types';
+import type { Retailer } from '../../types';
 
 interface RetailerCardProps {
   retailer: Retailer;
