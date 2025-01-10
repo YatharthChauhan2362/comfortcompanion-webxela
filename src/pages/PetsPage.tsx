@@ -1,8 +1,25 @@
-import React from 'react';
-import { Dog, Cat, Rabbit, Fish } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Filter } from 'lucide-react';
 import { pets } from '../data/pets';
+import { petProducts } from '../data/petProducts';
+import { PetProductCard } from '../components/pets/PetProductCard';
 
 export function PetsPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedPetType, setSelectedPetType] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const categories = Array.from(new Set(petProducts.map(product => product.category)));
+  const petTypes = Array.from(new Set(petProducts.map(product => product.petType)));
+
+  const filteredProducts = petProducts.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         product.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesPetType = !selectedPetType || product.petType === selectedPetType;
+    const matchesCategory = !selectedCategory || product.category === selectedCategory;
+    return matchesSearch && matchesPetType && matchesCategory;
+  });
+
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -13,6 +30,7 @@ export function PetsPage() {
           </p>
         </div>
 
+        {/* Pet Categories */}
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {pets.map((pet) => (
             <article key={pet.name} className="flex flex-col items-start">
@@ -42,6 +60,64 @@ export function PetsPage() {
               </div>
             </article>
           ))}
+        </div>
+
+        {/* Products Section */}
+        <div className="mt-24">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center">
+            Pet Products
+          </h2>
+          
+          {/* Filters */}
+          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            <div className="flex-1">
+              <div className="relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                  <Search className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Search products..."
+                />
+              </div>
+            </div>
+            <div className="sm:w-48">
+              <select
+                value={selectedPetType}
+                onChange={(e) => setSelectedPetType(e.target.value)}
+                className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="">All Pets</option>
+                {petTypes.map(type => (
+                  <option key={type} value={type}>
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="sm:w-48">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="">All Categories</option>
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Product Grid */}
+          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredProducts.map((product) => (
+              <PetProductCard key={product.id} product={product} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
